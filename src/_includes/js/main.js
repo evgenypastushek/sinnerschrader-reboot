@@ -9,6 +9,7 @@ import { OfferingHeader } from "./offering-header";
 import { Offerings } from "./offerings";
 import { Parallax } from "./parallax";
 import { ProfileLinkContactForm } from "./profile-link-contact-form";
+import { ShareButtons } from "./share-buttons";
 import { Slider } from "./slider.js";
 import { Video } from "./video.js";
 
@@ -63,6 +64,10 @@ import { Video } from "./video.js";
 			controlsSelector: "#js-job-filter-bar",
 			listSelector: "#js-job-listing",
 		});
+	}
+
+	if (isModuleNeeded("share-buttons")) {
+		new ShareButtons();
 	}
 
 	new Parallax();
