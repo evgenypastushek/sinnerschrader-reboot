@@ -31,6 +31,7 @@ variable "secrets" {
   type = object({
     OAUTH_CLIENT_ID = string,
     OAUTH_CLIENT_SECRET = string,
+    HCAPTCHA_SECRET = string,
   })
   sensitive = true
 }
@@ -50,7 +51,7 @@ resource "aws_ssm_parameter" "OAUTH_CLIENT_SECRET" {
 resource "aws_ssm_parameter" "HCAPTCHA_SECRET" {
   name  = "HCAPTCHA_SECRET"
   type  = "SecureString"
-  value = var.secrets.OAUTH_CLIENT_SECRET
+  value = var.secrets.HCAPTCHA_SECRET
 }
 
 data "aws_ssm_parameter" "OAUTH_CLIENT_ID" {
