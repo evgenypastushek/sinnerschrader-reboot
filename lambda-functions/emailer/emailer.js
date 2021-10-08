@@ -1,5 +1,5 @@
 const AWS = require("aws-sdk");
-const axios = require("axios")
+const axios = require("axios");
 AWS.config.update({ region: "eu-central-1" });
 const ses = new AWS.SES({ region: "eu-central-1" });
 
@@ -64,30 +64,30 @@ const handleHandleContact = async (data) => {
 			}
 		},
 		Source: SOURCE_EMAIL,
-		SourceArn: 'arn:aws:ses:eu-central-1:547134263911:identity/axentklatismrk@gmail.com'
+		SourceArn: "arn:aws:ses:eu-central-1:547134263911:identity/axentklatismrk@gmail.com"
 	};
 
 	try {
 		const response = await ses.sendEmail(params).promise();
-		return { statusCode: 200, body: "OK"};
+		return { statusCode: 200, body: JSON.stringify({ success: true, message: "OK" }) };
 	} catch (e) {
-		return { statusCode: 500, body: "Something went wrong." };
+		return { statusCode: 500, body: JSON.stringify({ success: false, message: "Something went wrong." }) };
 	}
 };
 
 const isCaptchaValid = async (captchaId) => {
 	try {
 		const params = new URLSearchParams();
-		params.append('secret', process.env.HCAPTCHA_SECRET)
-		params.append('response', captchaId)
+		params.append("secret", process.env.HCAPTCHA_SECRET);
+		params.append("response", captchaId);
 		const response = await axios.post("https://hcaptcha.com/siteverify", params, {
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
-			},
+			}
 		});
 		return response.data;
 	} catch (e) {
-		return {success: false, error: e.message};
+		return { success: false, error: e.message };
 	}
 };
 
@@ -97,11 +97,17 @@ exports.handler = async (event) => {
 	const captchaId = body.captcha;
 
 	if (!Object.values(CONTACT_TYPES).includes(type))
-		return { statusCode: 400, body: `Forbidden value of 'type' parameter: ${type}` };
+		return {
+			statusCode: 400,
+			body: JSON.stringify({ success: false, message: `Forbidden value of 'type' parameter: ${type}` })
+		};
 
 	const captchaResponse = await isCaptchaValid(captchaId);
 	if (!captchaResponse.success)
-		return { statusCode: 400, body: `Captcha is not valid. ${JSON.stringify(captchaResponse)}`};
+		return {
+			statusCode: 400,
+			body: JSON.stringify({ success: false, message: `Captcha is not valid. ${JSON.stringify(captchaResponse)}` })
+		};
 
 	if (type === CONTACT_TYPES.FULL)
 		return handleFullContact(body);
