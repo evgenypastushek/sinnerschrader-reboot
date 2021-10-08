@@ -44,6 +44,14 @@ resource "aws_apigatewayv2_integration" "callback_integration" {
   integration_method = "POST"
 }
 
+resource "aws_apigatewayv2_integration" "emailer_integration" {
+  api_id = aws_apigatewayv2_api.lambda.id
+
+  integration_uri    = aws_lambda_function.emailer.invoke_arn
+  integration_type   = "AWS_PROXY"
+  integration_method = "POST"
+}
+
 resource "aws_apigatewayv2_route" "auth_route" {
   api_id = aws_apigatewayv2_api.lambda.id
 
@@ -56,6 +64,13 @@ resource "aws_apigatewayv2_route" "callback_route" {
 
   route_key = "GET /callback"
   target    = "integrations/${aws_apigatewayv2_integration.callback_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "emailer_route" {
+  api_id = aws_apigatewayv2_api.lambda.id
+
+  route_key = "POST /emailer"
+  target    = "integrations/${aws_apigatewayv2_integration.emailer_integration.id}"
 }
 
 resource "aws_cloudwatch_log_group" "api_gw" {
@@ -77,6 +92,15 @@ resource "aws_lambda_permission" "api_perm_callback" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.callback.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_apigatewayv2_api.lambda.execution_arn}/*/*"
+}
+
+resource "aws_lambda_permission" "api_perm_emailer" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.emailer.function_name
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "${aws_apigatewayv2_api.lambda.execution_arn}/*/*"
