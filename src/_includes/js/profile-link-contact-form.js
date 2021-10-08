@@ -20,7 +20,7 @@ export class ProfileLinkContactForm {
 		this.backwardBtn.addEventListener("click", this.togglePages.bind(this));
 		this.submitBtn.addEventListener("click", this.sendHandleEmail.bind(this));
 		this.captchaWidget = hcaptcha.render(this.captchaContainer, {
-			sitekey: "10000000-ffff-ffff-ffff-000000000001",
+			sitekey: "555327a5-0262-4a9e-90c5-b257351d1317",
 			theme: "dark",
 			callback: this.onCaptchaSuccess.bind(this)
 		});
@@ -47,8 +47,6 @@ export class ProfileLinkContactForm {
 			method: "POST"
 		}).then(this.emailSent)
 			.catch(this.emailFailed);
-
-
 	}
 
 	togglePages() {

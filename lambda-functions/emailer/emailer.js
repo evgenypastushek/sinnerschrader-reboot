@@ -8,8 +8,8 @@ const CONTACT_TYPES = {
 	ONLY_HANDLE: "only_handle"
 };
 
-const TARGET_EMAIL = "axentklatismrk@gmail.com";
-const SOURCE_EMAIL = "jiri.groh@accenture.com";
+const TARGET_EMAIL = "jiri.groh@accenture.com";
+const SOURCE_EMAIL = "axentklatismrk@gmail.com";
 
 const handleFullContact = (event) => {
 	const { phonenumber, senderName, profileLink, privacy, senderEmail, contactPerson } = event.payload;
@@ -63,7 +63,8 @@ const handleHandleContact = async (data) => {
 				Data: `📮 Recruiting Landing page: New talent radar handle ${handle}`
 			}
 		},
-		Source: SOURCE_EMAIL
+		Source: SOURCE_EMAIL,
+		SourceArn: 'arn:aws:ses:eu-central-1:547134263911:identity/axentklatismrk@gmail.com'
 	};
 
 	try {
@@ -77,7 +78,7 @@ const handleHandleContact = async (data) => {
 const isCaptchaValid = async (captchaId) => {
 	try {
 		const params = new URLSearchParams();
-		params.append('secret', '0x0000000000000000000000000000000000000000')
+		params.append('secret', process.env.HCAPTCHA_SECRET)
 		params.append('response', captchaId)
 		const response = await axios.post("https://hcaptcha.com/siteverify", params, {
 			headers: {
