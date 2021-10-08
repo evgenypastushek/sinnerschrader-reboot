@@ -31,7 +31,7 @@ export class ProfileLinkContactForm {
 	}
 
 	emailSent() {
-
+		hcaptcha.reset(this.captchaWidget)
 	}
 
 	emailFailed() {
