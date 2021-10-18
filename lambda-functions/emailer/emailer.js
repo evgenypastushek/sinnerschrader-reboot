@@ -8,8 +8,8 @@ const CONTACT_TYPES = {
 	ONLY_HANDLE: "only_handle"
 };
 
-const TARGET_EMAIL = "jiri.groh@accenture.com";
-const SOURCE_EMAIL = "axentklatismrk@gmail.com";
+const TARGET_EMAIL = "jiri.groh@sinnerschrader.com";
+const SOURCE_EMAIL = "jiri.groh@sinnerschrader.com";
 
 const handleFullContact = (event) => {
 	const { phonenumber, senderName, profileLink, privacy, senderEmail, contactPerson } = event.payload;
@@ -64,7 +64,7 @@ const handleHandleContact = async (data) => {
 			}
 		},
 		Source: SOURCE_EMAIL,
-		SourceArn: "arn:aws:ses:eu-central-1:547134263911:identity/axentklatismrk@gmail.com"
+		SourceArn: "arn:aws:ses:eu-central-1:547134263911:identity/jiri.groh@sinnerschrader.com"
 	};
 
 	try {
