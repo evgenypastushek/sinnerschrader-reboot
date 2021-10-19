@@ -3,14 +3,14 @@ export class ProfileLinkContactForm {
 		this.container = document.querySelector(".profile-link-contact-form");
 		if (!this.container) return;
 
-		this.firstPage = this.container.querySelector("[data-js-item=\"profile-link-contact-form-content\"]");
-		this.secondPage = this.container.querySelector("[data-js-item=\"profile-link-contact-form-content-hidden\"]");
-		this.forwardBtn = this.firstPage.querySelector("[data-js-atom=\"profile-link-contact-form-forward\"]");
-		this.backwardBtn = this.secondPage.querySelector("[data-js-atom=\"profile-link-contact-form-backward\"]");
-		this.submitBtn = this.secondPage.querySelector("[data-js-atom=\"profile-link-contact-form-submit\"]");
-		this.input = this.secondPage.querySelector("[data-js-atom=\"profile-link-contact-form-input\"]");
-		this.checkbox = this.secondPage.querySelector("[data-js-atom=\"profile-link-contact-form-checkbox\"]");
-		this.captchaContainer = this.secondPage.querySelector("[data-js-atom=\"profile-link-contact-form-captcha-container\"]");
+		this.firstPage = this.container.querySelector('[data-js-item="profile-link-contact-form-content"]');
+		this.secondPage = this.container.querySelector('[data-js-item="profile-link-contact-form-content-hidden"]');
+		this.forwardBtn = this.firstPage.querySelector('[data-js-atom="profile-link-contact-form-forward"]');
+		this.backwardBtn = this.secondPage.querySelector('[data-js-atom="profile-link-contact-form-backward"]');
+		this.submitBtn = this.secondPage.querySelector('[data-js-atom="profile-link-contact-form-submit"]');
+		this.input = this.secondPage.querySelector('[data-js-atom="profile-link-contact-form-input"]');
+		this.checkbox = this.secondPage.querySelector('[data-js-atom="profile-link-contact-form-checkbox"]');
+		this.captchaContainer = this.secondPage.querySelector('[data-js-atom="profile-link-contact-form-captcha-container"]');
 		this.bindEvents();
 	}
 
@@ -39,7 +39,6 @@ export class ProfileLinkContactForm {
 	}
 
 	async sendHandleEmail() {
-		console.log(this.input.value, this.checkbox.checked, this.captchaResponse);
 		const data = { payload: { handle: this.input.value }, type: "only_handle", captcha: this.captchaResponse };
 		fetch("https://k741x3mcij.execute-api.eu-central-1.amazonaws.com/prod/emailer", {
 			body: JSON.stringify(data),
